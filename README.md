@@ -50,7 +50,7 @@ Per creare una build locale:
 npm run build
 ```
 
-Il progetto è configurato per rimanere in esecuzione locale durante questa fase. Non è previsto alcun deploy automatico.
+Il progetto produce una build statica nella cartella `dist`, pronta per Netlify. Il file `netlify.toml` configura automaticamente la build a ogni push sul repository collegato.
 
 ## Struttura principale
 
