@@ -267,18 +267,20 @@ button:active:not(:disabled) { scale: .97; }
 .dock-stack .dock-folder>i:nth-child(2) { transform: rotate(7deg) translate(5px, 1px); opacity: .8; }
 .dock-stack .dock-folder>svg { position: relative; z-index: 2; }
 .dock-stack .dock-folder.is-open { box-shadow: inset 0 1px 1px #ffffffe6, 0 0 0 3px #ffffff35, 0 7px 18px #36587845; }
-.dock-stack-menu { position: absolute; z-index: 30; right: -12px; bottom: calc(100% + 14px); width: min(236px, calc(100vw - 32px)); padding: 0 12px; border-radius: 20px; background-color: var(--sidebar) !important; box-shadow: inset 1px 1px 0 #ffffff70, 0 12px 30px #173b6338; animation: dock-stack-in .22s var(--spring) both; isolation: isolate; }
+.dock-stack-menu { position: absolute; z-index: 30; right: -22px; bottom: calc(100% + 16px); width: min(440px, calc(100vw - 28px)); padding: 17px 19px 19px; border-radius: 25px; background-color: #eaf4fbe8 !important; box-shadow: inset 0 1px 1px #ffffffd9, 0 18px 42px #173b6338; animation: dock-stack-in .22s var(--spring) both; isolation: isolate; }
 .dock-stack-menu::before { content: ''; position: absolute; z-index: 0; right: 20px; bottom: -7px; width: 14px; height: 14px; background: inherit; border-right: 1px solid #ffffff70; border-bottom: 1px solid #ffffff70; transform: rotate(45deg); pointer-events: none; }
 .dock-stack-menu::after { display: none; }
-.dock-stack-menu-group { position: relative; z-index: 1; padding: 3px 0 14px; }
-.dock-stack-menu-group + .dock-stack-menu-group { padding-top: 3px; }
-.dock-stack-menu-section-label { font-size: 12px; color: var(--secondary-text); padding-left: 13px; margin-bottom: 4px; font-weight: 600; }
-.dock-stack-menu-item { position: relative; z-index: 1; width: 100%; height: 39px; display: flex; align-items: center; gap: 10px; padding: 9px 13px; margin-bottom: 3px; border-radius: 20px; border: 1px solid transparent; background: transparent; color: var(--foreground); box-shadow: none; transform: none !important; text-align: left; pointer-events: auto; }
-.dock-stack-menu-item:hover, .dock-stack-menu-item:focus-visible { background: var(--control-hover); }
-.dock-stack-menu-item.is-active { background: var(--selected); border-color: var(--glass-rim); box-shadow: inset 0 1px 0 var(--glass-edge), 0 2px 5px #305b8b12; font-weight: 600; }
-.dock-stack-menu-item>svg { width: 18px; height: 18px; color: var(--primary); }
-.dock-stack-menu-item>span:not(.dock-stack-menu-count) { min-width: 0; overflow: hidden; flex: 1; font-size: 14px; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
-.dock-stack-menu-count { margin-left: auto; color: var(--secondary-text); font-size: 12px; }
+.dock-stack-menu-title { position: relative; z-index: 1; padding: 0 0 15px; color: var(--foreground); font-size: 16px; font-weight: 500; line-height: 1.2; text-align: center; }
+.dock-stack-menu-grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px 10px; }
+.dock-stack-menu .dock-stack-menu-item { position: relative; z-index: 1; width: 100%; height: auto; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 2px 3px 1px; border-radius: 14px; background: transparent; color: var(--foreground); box-shadow: none; transform: none !important; text-align: center; pointer-events: auto; }
+.dock-stack-menu .dock-stack-menu-item:hover, .dock-stack-menu .dock-stack-menu-item:focus-visible { background: var(--control-hover); }
+.dock-stack-menu .dock-stack-menu-item.is-active { background: var(--selected); box-shadow: inset 0 1px 0 var(--glass-edge), 0 2px 8px var(--glass-shade); }
+.dock-stack-folder-art { position: relative; width: 72px; height: 56px; display: grid; place-items: center; color: #dff6ff; filter: drop-shadow(0 6px 6px #153a5c35); }
+.dock-stack-folder-base { position: absolute; inset: 0; width: 100%; height: 100%; fill: #50b5e7; stroke: #a9e6ff; stroke-width: 1.15; }
+.dock-stack-folder-glyph { position: relative; z-index: 1; width: 24px; height: 24px; color: #287ea9; stroke-width: 1.8; }
+.dock-stack-menu-caption { position: relative; width: 100%; min-height: 19px; padding: 0 13px; }
+.dock-stack-menu-label { display: block; overflow: hidden; color: var(--foreground); font-size: 13px; font-weight: 500; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+.dock-stack-menu-count { position: absolute; top: 1px; right: 0; color: var(--secondary-text); font-size: 10px; line-height: 1.35; }
 @keyframes dock-stack-in { from { opacity: 0; transform: translateY(8px) scale(.94); } to { opacity: 1; transform: translateY(0) scale(1); } }
 .dock .dock-app { background: transparent; box-shadow: none; }
 .dock-app .app-icon { width: 57px; height: 57px; }
@@ -571,7 +573,7 @@ button:active:not(:disabled) { scale: .97; }
 
 :root:not([data-theme=light]) .dock>span { background: #02152d70; box-shadow: 1px 0 0 #ffffff24; }
 
-:root:not([data-theme=light]) .dock-stack-menu { background-color: #16263ff2; }
+:root:not([data-theme=light]) .dock-stack-menu { background-color: #3b414cf2 !important; }
 
 :root:not([data-theme=light]) .empty-state button, :root:not([data-theme=light]) .detail-footer>a { color: #fff; }
 
@@ -628,7 +630,7 @@ button:active:not(:disabled) { scale: .97; }
 
 :root[data-theme=dark] .dock>span { background: #02152d70; box-shadow: 1px 0 0 #ffffff24; }
 
-:root[data-theme=dark] .dock-stack-menu { background-color: #16263ff2; }
+:root[data-theme=dark] .dock-stack-menu { background-color: #3b414cf2 !important; }
 
 :root[data-theme=dark] .empty-state button, :root[data-theme=dark] .detail-footer>a { color: #fff; }
 
