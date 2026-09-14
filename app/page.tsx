@@ -51,16 +51,17 @@ export default function Home(){
  useEffect(()=>{
   const media=window.matchMedia('(prefers-reduced-motion: reduce)');
   let frame=0; let active:HTMLElement|null=null;
+  const reset=()=>{cancelAnimationFrame(frame);active?.style.removeProperty('--light-x');active?.style.removeProperty('--light-y');active=null;};
   const move=(event:PointerEvent)=>{
    if(event.pointerType!=='mouse'||media.matches||document.documentElement.dataset.motion==='reduced')return;
-   const target=(event.target as Element).closest<HTMLElement>('.glass');
-   if(!target)return;
+   const source=event.target as Element|null;
+   const target=source?.closest<HTMLElement>('.mac-window.glass')||source?.closest<HTMLElement>('.glass');
+   if(!target){reset();return;}
    if(active&&active!==target){active.style.removeProperty('--light-x');active.style.removeProperty('--light-y');}
    active=target; const x=event.clientX,y=event.clientY;
    cancelAnimationFrame(frame);
    frame=requestAnimationFrame(()=>{const rect=target.getBoundingClientRect();target.style.setProperty('--light-x',`${x-rect.left}px`);target.style.setProperty('--light-y',`${y-rect.top}px`);});
   };
-  const reset=()=>{cancelAnimationFrame(frame);active?.style.removeProperty('--light-x');active?.style.removeProperty('--light-y');active=null;};
   document.addEventListener('pointermove',move,{passive:true});document.addEventListener('pointerleave',reset);
   return()=>{cancelAnimationFrame(frame);document.removeEventListener('pointermove',move);document.removeEventListener('pointerleave',reset);};
  },[]);
