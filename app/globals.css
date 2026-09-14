@@ -565,6 +565,8 @@ button:active:not(:disabled) { scale: .97; }
 
 :root:not([data-theme=light]) .dock>span { background: #02152d70; box-shadow: 1px 0 0 #ffffff24; }
 
+:root:not([data-theme=light]) .dock-stack-menu { background-color: #16263ff2; }
+
 :root:not([data-theme=light]) .empty-state button, :root:not([data-theme=light]) .detail-footer>a { color: #fff; }
 
 :root:not([data-theme=light]) .app-dialog, :root:not([data-theme=light]) .about-dialog, :root:not([data-theme=light]) .categories-dialog { box-shadow: inset 0 1px 1px #d5eaff85, inset 1px 0 1px #adc9eb24, inset 0 -1px 0 #cee4ff38, 0 0 0 1px #04152d70, 0 30px 90px #01091780 !important; }
@@ -619,6 +621,8 @@ button:active:not(:disabled) { scale: .97; }
 :root[data-theme=dark] .dock .running { background: #daedff; }
 
 :root[data-theme=dark] .dock>span { background: #02152d70; box-shadow: 1px 0 0 #ffffff24; }
+
+:root[data-theme=dark] .dock-stack-menu { background-color: #16263ff2; }
 
 :root[data-theme=dark] .empty-state button, :root[data-theme=dark] .detail-footer>a { color: #fff; }
 
