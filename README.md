@@ -1,13 +1,13 @@
 <div align="center">
   <img src="public/favicon.svg" alt="Icona Appunto" width="88" height="88">
   <h1>Appunto</h1>
-  <p>Una selezione personale di app per Mac, presentata con un’interfaccia ispirata ai dispositivi Apple.</p>
+  <p>Una selezione personale di app per Mac e Android, presentata con un’interfaccia ispirata ai dispositivi Apple.</p>
 </div>
 
 <p align="center">
   <img src="https://img.shields.io/badge/stato-sviluppo%20locale-087cff?style=flat-square" alt="Sviluppo locale">
   <img src="https://img.shields.io/badge/interfaccia-Liquid%20Glass-6f5bd3?style=flat-square" alt="Liquid Glass">
-  <img src="https://img.shields.io/badge/app-24-18304d?style=flat-square" alt="24 app">
+  <img src="https://img.shields.io/badge/app-33-18304d?style=flat-square" alt="33 app">
 </p>
 
 ## Cos’è
@@ -22,7 +22,7 @@ L’esperienza cambia in base al dispositivo:
 
 ## Funzionalità
 
-- Catalogo di 24 app Mac organizzato per categorie.
+- Catalogo di 24 app Mac e 9 app Android organizzato per piattaforma e categoria.
 - Schede dettagliate con descrizione, utilità e collegamento al sito ufficiale.
 - Dock macOS con cinque app casuali e tooltip delle icone.
 - Pila delle categorie con apertura verso l’alto e chiusura facendo clic fuori.

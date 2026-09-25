@@ -1,46 +1,417 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { BatteryFull, Check, ChevronRight, Command, Image as ImageIcon, Monitor, Search, Smartphone, Wifi, WifiOff, X } from 'lucide-react';
-import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
-import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select';
+import {
+  BatteryFull,
+  Check,
+  ChevronRight,
+  Command,
+  Image as ImageIcon,
+  Monitor,
+  Search,
+  Smartphone,
+  Wifi,
+  WifiOff,
+  X,
+} from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from '@/components/ui/dialog';
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from '@/components/ui/native-select';
 import { Switch } from '@/components/ui/switch';
 import { filterApps, type App } from './apps';
-export type Panel = 'desktop'|'settings'|'help'|'battery'|'connection'|'clock'|'coming'|'search';
-type Props={panel:Panel|null;onClose:()=>void;appearance:string;onAppearance:(v:string)=>void;animations:boolean;onAnimations:(v:boolean)=>void;sidebar:boolean;onSidebar:(v:boolean)=>void;view:'grid'|'list';onView:(v:'grid'|'list')=>void;onApp:(a:App)=>void;onWallpaper:()=>void;onOpenWindow:()=>void};
-type Battery = EventTarget & { level:number; charging:boolean };
-const titles:Record<Panel,string>={desktop:'Il desktop di Appunto',settings:'Centro di controllo',help:'Come usare Appunto',battery:'Batteria',connection:'Connessione',clock:'Data e ora',coming:'Le prossime raccolte',search:'Cerca in Appunto'};
-const descriptions:Record<Panel,string>={desktop:'Le tue app, in un posto familiare.',settings:'Personalizza l’esperienza su questo dispositivo.',help:'Piccoli gesti, proprio come sul desktop.',battery:'Informazioni rese disponibili dal browser.',connection:'Stato della connessione del browser.',clock:'L’ora locale del tuo dispositivo.',coming:'La selezione continua a crescere.',search:'Trova un’app per nome o per quello che vuoi fare.'};
-export function SystemPanel(p:Props){
- const [retained,setRetained]=useState<Panel>('desktop');
- const [query,setQuery]=useState('');const input=useRef<HTMLInputElement>(null);
- const [online,setOnline]=useState<boolean|null>(null);
- const [battery,setBattery]=useState<{level:number;charging:boolean}|null>(null);
- const [batteryLoading,setBatteryLoading]=useState(false);
- const [now,setNow]=useState<Date|null>(null);
- const current=p.panel||retained;
- useEffect(()=>{if(p.panel){setRetained(p.panel);if(p.panel==='search')setQuery('');}},[p.panel]);
- useEffect(()=>{const update=()=>setOnline(navigator.onLine);update();window.addEventListener('online',update);window.addEventListener('offline',update);return()=>{window.removeEventListener('online',update);window.removeEventListener('offline',update);};},[]);
- useEffect(()=>{if(p.panel!=='clock')return;setNow(new Date());const timer=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(timer);},[p.panel]);
- useEffect(()=>{if(p.panel!=='battery')return;let disposed=false;let manager:Battery|undefined;const update=()=>{if(manager&&!disposed)setBattery({level:Math.round(manager.level*100),charging:manager.charging});};const api=navigator as Navigator & {getBattery?:()=>Promise<Battery>};if(!api.getBattery){setBatteryLoading(false);return;}setBatteryLoading(true);api.getBattery().then(b=>{if(disposed)return;manager=b;update();setBatteryLoading(false);b.addEventListener('levelchange',update);b.addEventListener('chargingchange',update);}).catch(()=>{if(!disposed)setBatteryLoading(false);});return()=>{disposed=true;manager?.removeEventListener('levelchange',update);manager?.removeEventListener('chargingchange',update);};},[p.panel]);
- const results=filterApps('Tutte le app',query);
- return <Dialog open={p.panel!==null} onOpenChange={open=>{if(!open)p.onClose();}}><DialogContent className="system-dialog glass ios-sheet" showCloseButton={false} initialFocus={current==='search'?input:undefined}>
-  <header className="system-heading"><DialogTitle>{titles[current]}</DialogTitle><DialogClose className="close-detail" aria-label="Chiudi pannello"><X size={18}/></DialogClose></header>
-  <div className="system-content"><DialogDescription>{descriptions[current]}</DialogDescription>
-  {current==='search'&&<><label className="spotlight-input"><Search size={22}/><input ref={input} value={query} onChange={e=>setQuery(e.target.value)} placeholder="Nome, categoria, utilità…" aria-label="Cerca app" autoComplete="off"/>{query&&<button aria-label="Cancella ricerca" onClick={()=>setQuery('')}><X size={18}/></button>}</label><div className="spotlight-results" aria-live="polite">{results.length===0?<p>Nessuna app trovata. Prova con un altro nome.</p>:results.map(app=><button key={app.slug} onClick={()=>p.onApp(app)}><span><b>{app.name}</b><small>{app.desc}</small></span><ChevronRight size={17}/></button>)}</div></>}
-  {current==='settings'&&<div className="settings-list">
-   <label className="setting-row"><span>Aspetto<small>Solo per Appunto</small></span><NativeSelect aria-label="Aspetto" value={p.appearance} onChange={e=>p.onAppearance(e.target.value)}><NativeSelectOption value="system">Automatico</NativeSelectOption><NativeSelectOption value="light">Chiaro</NativeSelectOption><NativeSelectOption value="dark">Scuro</NativeSelectOption></NativeSelect></label>
-   <label className="setting-row"><span>Vista del catalogo</span><NativeSelect aria-label="Vista del catalogo" value={p.view} onChange={e=>p.onView(e.target.value as 'grid'|'list')}><NativeSelectOption value="grid">Griglia</NativeSelectOption><NativeSelectOption value="list">Elenco</NativeSelectOption></NativeSelect></label>
-   <div className="setting-row"><label htmlFor="sidebar-option">Barra laterale<small>Su computer e tablet</small></label><Switch id="sidebar-option" checked={p.sidebar} onCheckedChange={p.onSidebar}/></div>
-   <div className="setting-row"><label htmlFor="animation-option">Animazioni<small>Rispetta anche le preferenze di sistema</small></label><Switch id="animation-option" checked={p.animations} onCheckedChange={p.onAnimations}/></div>
-   <button className="setting-action" onClick={p.onWallpaper}><ImageIcon size={18}/><span>Cambia sfondo<small>Scegli una variante casuale</small></span><ChevronRight size={17}/></button>
-   <p className="system-note">Aspetto e animazioni vengono ricordati in questo browser.</p>
-  </div>}
-  {current==='desktop'&&<><div className="system-emblem"><Command size={42}/></div><h2>Appunto</h2><p>Una raccolta di 24 app Mac selezionate da Flavio, con un desktop interattivo e un’interfaccia Liquid Glass.</p><p className="system-note">Questo è il desktop del sito: i suoi controlli gestiscono Appunto, senza modificare le impostazioni del tuo Mac.</p><button className="system-primary" onClick={p.onOpenWindow}>Apri la raccolta <ChevronRight size={17}/></button></>}
-  {current==='help'&&<div className="help-list">{[['Apri una scheda','Fai clic su un’app per leggerne i dettagli e visitare il sito ufficiale.'],['Rosso · Chiudi','Chiude la finestra. Puoi riaprirla dall’icona Appunto nel Dock.'],['Giallo · Riduci','La finestra scende nel Dock. Fai clic sulla miniatura per ripristinarla.'],['Verde · Espandi','Espande la finestra e ripristina le dimensioni al secondo clic.'],['Sposta la finestra','Trascina la barra superiore. Fai doppio clic sul titolo per espandere.'],['Sul telefono','Le schede salgono dal basso a tutto schermo. Usa il pulsante di chiusura per tornare alla raccolta.']].map(([title,body])=><section key={title}><h3>{title}</h3><p>{body}</p></section>)}<div className="shortcut-row"><span>Cerca un’app</span><kbd>⌘ / Ctrl K</kbd></div><div className="shortcut-row"><span>Impostazioni</span><kbd>⌘ / Ctrl ,</kbd></div><div className="shortcut-row"><span>Espandi / ripristina</span><kbd>⌘ / Ctrl ↑</kbd></div><div className="shortcut-row"><span>Chiudi un pannello</span><kbd>Esc</kbd></div></div>}
-  {current==='connection'&&<><div className="system-emblem">{online?<Wifi size={42}/>:<WifiOff size={42}/>}</div><h2>{online===null?'Verifica in corso…':online?'Connessione disponibile':'Sei offline'}</h2><p>{online?'Il browser segnala una connessione di rete disponibile.':'I collegamenti ai siti ufficiali richiedono una connessione a Internet.'}</p><p className="system-note">La rete Wi-Fi si gestisce dalle impostazioni del dispositivo.</p></>}
-  {current==='battery'&&<><div className="system-emblem"><BatteryFull size={46}/></div><h2>{batteryLoading?'Lettura in corso…':battery?`${battery.level}%`:'Dato non disponibile'}</h2><p>{battery?(battery.charging?'Il dispositivo è collegato all’alimentazione.':'Il dispositivo sta utilizzando la batteria.'):'Questo browser non espone il livello della batteria. Puoi consultarlo nella barra di sistema del dispositivo.'}</p></>}
-  {current==='clock'&&now&&<div className="clock-panel"><div className="calendar-date"><small>{now.toLocaleDateString('it-IT',{month:'long',year:'numeric'})}</small><strong>{now.getDate()}</strong><span>{now.toLocaleDateString('it-IT',{weekday:'long'})}</span></div><time>{now.toLocaleTimeString('it-IT')}</time><p>{Intl.DateTimeFormat().resolvedOptions().timeZone}</p></div>}
-  {current==='coming'&&<><div className="system-emblem"><Smartphone size={42}/></div><h2>iPhone e iPad, prossimamente.</h2><p>Per ora trovi le 24 app per Mac. La raccolta verrà ampliata con selezioni dedicate agli altri dispositivi.</p><button className="system-primary" onClick={p.onOpenWindow}><Monitor size={17}/> Esplora le app Mac</button></>}
-  </div>
- </DialogContent></Dialog>;
+export type Panel =
+  | 'desktop'
+  | 'settings'
+  | 'help'
+  | 'battery'
+  | 'connection'
+  | 'clock'
+  | 'coming'
+  | 'search';
+type Props = {
+  panel: Panel | null;
+  onClose: () => void;
+  appearance: string;
+  onAppearance: (v: string) => void;
+  animations: boolean;
+  onAnimations: (v: boolean) => void;
+  sidebar: boolean;
+  onSidebar: (v: boolean) => void;
+  view: 'grid' | 'list';
+  onView: (v: 'grid' | 'list') => void;
+  onApp: (a: App) => void;
+  onWallpaper: () => void;
+  onOpenWindow: () => void;
+};
+type Battery = EventTarget & { level: number; charging: boolean };
+const titles: Record<Panel, string> = {
+  desktop: 'Il desktop di Appunto',
+  settings: 'Centro di controllo',
+  help: 'Come usare Appunto',
+  battery: 'Batteria',
+  connection: 'Connessione',
+  clock: 'Data e ora',
+  coming: 'Le prossime raccolte',
+  search: 'Cerca in Appunto',
+};
+const descriptions: Record<Panel, string> = {
+  desktop: 'Le tue app, in un posto familiare.',
+  settings: 'Personalizza l’esperienza su questo dispositivo.',
+  help: 'Piccoli gesti, proprio come sul desktop.',
+  battery: 'Informazioni rese disponibili dal browser.',
+  connection: 'Stato della connessione del browser.',
+  clock: 'L’ora locale del tuo dispositivo.',
+  coming: 'La selezione continua a crescere.',
+  search: 'Trova un’app per nome o per quello che vuoi fare.',
+};
+export function SystemPanel(p: Props) {
+  const [retained, setRetained] = useState<Panel>('desktop');
+  const [query, setQuery] = useState('');
+  const input = useRef<HTMLInputElement>(null);
+  const [online, setOnline] = useState<boolean | null>(null);
+  const [battery, setBattery] = useState<{
+    level: number;
+    charging: boolean;
+  } | null>(null);
+  const [batteryLoading, setBatteryLoading] = useState(false);
+  const [now, setNow] = useState<Date | null>(null);
+  const current = p.panel || retained;
+  useEffect(() => {
+    if (p.panel) {
+      setRetained(p.panel);
+      if (p.panel === 'search') setQuery('');
+    }
+  }, [p.panel]);
+  useEffect(() => {
+    const update = () => setOnline(navigator.onLine);
+    update();
+    window.addEventListener('online', update);
+    window.addEventListener('offline', update);
+    return () => {
+      window.removeEventListener('online', update);
+      window.removeEventListener('offline', update);
+    };
+  }, []);
+  useEffect(() => {
+    if (p.panel !== 'clock') return;
+    setNow(new Date());
+    const timer = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, [p.panel]);
+  useEffect(() => {
+    if (p.panel !== 'battery') return;
+    let disposed = false;
+    let manager: Battery | undefined;
+    const update = () => {
+      if (manager && !disposed)
+        setBattery({
+          level: Math.round(manager.level * 100),
+          charging: manager.charging,
+        });
+    };
+    const api = navigator as Navigator & {
+      getBattery?: () => Promise<Battery>;
+    };
+    if (!api.getBattery) {
+      setBatteryLoading(false);
+      return;
+    }
+    setBatteryLoading(true);
+    api
+      .getBattery()
+      .then((b) => {
+        if (disposed) return;
+        manager = b;
+        update();
+        setBatteryLoading(false);
+        b.addEventListener('levelchange', update);
+        b.addEventListener('chargingchange', update);
+      })
+      .catch(() => {
+        if (!disposed) setBatteryLoading(false);
+      });
+    return () => {
+      disposed = true;
+      manager?.removeEventListener('levelchange', update);
+      manager?.removeEventListener('chargingchange', update);
+    };
+  }, [p.panel]);
+  const results = filterApps('Tutte le app', query);
+  return (
+    <Dialog
+      open={p.panel !== null}
+      onOpenChange={(open) => {
+        if (!open) p.onClose();
+      }}
+    >
+      <DialogContent
+        className="system-dialog glass ios-sheet"
+        showCloseButton={false}
+        initialFocus={current === 'search' ? input : undefined}
+      >
+        <header className="system-heading">
+          <DialogTitle>{titles[current]}</DialogTitle>
+          <DialogClose className="close-detail" aria-label="Chiudi pannello">
+            <X size={18} />
+          </DialogClose>
+        </header>
+        <div className="system-content">
+          <DialogDescription>{descriptions[current]}</DialogDescription>
+          {current === 'search' && (
+            <>
+              <label className="spotlight-input">
+                <Search size={22} />
+                <input
+                  ref={input}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Nome, categoria, utilità…"
+                  aria-label="Cerca app"
+                  autoComplete="off"
+                />
+                {query && (
+                  <button
+                    aria-label="Cancella ricerca"
+                    onClick={() => setQuery('')}
+                  >
+                    <X size={18} />
+                  </button>
+                )}
+              </label>
+              <div className="spotlight-results" aria-live="polite">
+                {results.length === 0 ? (
+                  <p>Nessuna app trovata. Prova con un altro nome.</p>
+                ) : (
+                  results.map((app) => (
+                    <button key={app.slug} onClick={() => p.onApp(app)}>
+                      <span>
+                        <b>{app.name}</b>
+                        <small>{app.desc}</small>
+                      </span>
+                      <ChevronRight size={17} />
+                    </button>
+                  ))
+                )}
+              </div>
+            </>
+          )}
+          {current === 'settings' && (
+            <div className="settings-list">
+              <label className="setting-row">
+                <span>
+                  Aspetto<small>Solo per Appunto</small>
+                </span>
+                <NativeSelect
+                  aria-label="Aspetto"
+                  value={p.appearance}
+                  onChange={(e) => p.onAppearance(e.target.value)}
+                >
+                  <NativeSelectOption value="system">
+                    Automatico
+                  </NativeSelectOption>
+                  <NativeSelectOption value="light">Chiaro</NativeSelectOption>
+                  <NativeSelectOption value="dark">Scuro</NativeSelectOption>
+                </NativeSelect>
+              </label>
+              <label className="setting-row">
+                <span>Vista del catalogo</span>
+                <NativeSelect
+                  aria-label="Vista del catalogo"
+                  value={p.view}
+                  onChange={(e) => p.onView(e.target.value as 'grid' | 'list')}
+                >
+                  <NativeSelectOption value="grid">Griglia</NativeSelectOption>
+                  <NativeSelectOption value="list">Elenco</NativeSelectOption>
+                </NativeSelect>
+              </label>
+              <div className="setting-row">
+                <label htmlFor="sidebar-option">
+                  Barra laterale<small>Su computer e tablet</small>
+                </label>
+                <Switch
+                  id="sidebar-option"
+                  checked={p.sidebar}
+                  onCheckedChange={p.onSidebar}
+                />
+              </div>
+              <div className="setting-row">
+                <label htmlFor="animation-option">
+                  Animazioni
+                  <small>Rispetta anche le preferenze di sistema</small>
+                </label>
+                <Switch
+                  id="animation-option"
+                  checked={p.animations}
+                  onCheckedChange={p.onAnimations}
+                />
+              </div>
+              <button className="setting-action" onClick={p.onWallpaper}>
+                <ImageIcon size={18} />
+                <span>
+                  Cambia sfondo<small>Scegli una variante casuale</small>
+                </span>
+                <ChevronRight size={17} />
+              </button>
+              <p className="system-note">
+                Aspetto e animazioni vengono ricordati in questo browser.
+              </p>
+            </div>
+          )}
+          {current === 'desktop' && (
+            <>
+              <div className="system-emblem">
+                <Command size={42} />
+              </div>
+              <h2>Appunto</h2>
+              <p>
+                Una raccolta di 24 app Mac selezionate da Flavio, con un desktop
+                interattivo e un’interfaccia Liquid Glass.
+              </p>
+              <p className="system-note">
+                Questo è il desktop del sito: i suoi controlli gestiscono
+                Appunto, senza modificare le impostazioni del tuo Mac.
+              </p>
+              <button className="system-primary" onClick={p.onOpenWindow}>
+                Apri la raccolta <ChevronRight size={17} />
+              </button>
+            </>
+          )}
+          {current === 'help' && (
+            <div className="help-list">
+              {[
+                [
+                  'Apri una scheda',
+                  'Fai clic su un’app per leggerne i dettagli e visitare il sito ufficiale.',
+                ],
+                [
+                  'Rosso · Chiudi',
+                  'Chiude la finestra. Puoi riaprirla dall’icona Appunto nel Dock.',
+                ],
+                [
+                  'Giallo · Riduci',
+                  'La finestra scende nel Dock. Fai clic sulla miniatura per ripristinarla.',
+                ],
+                [
+                  'Verde · Espandi',
+                  'Espande la finestra e ripristina le dimensioni al secondo clic.',
+                ],
+                [
+                  'Sposta la finestra',
+                  'Trascina la barra superiore. Fai doppio clic sul titolo per espandere.',
+                ],
+                [
+                  'Sul telefono',
+                  'Le schede salgono dal basso a tutto schermo. Usa il pulsante di chiusura per tornare alla raccolta.',
+                ],
+              ].map(([title, body]) => (
+                <section key={title}>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </section>
+              ))}
+              <div className="shortcut-row">
+                <span>Cerca un’app</span>
+                <kbd>⌘ / Ctrl K</kbd>
+              </div>
+              <div className="shortcut-row">
+                <span>Impostazioni</span>
+                <kbd>⌘ / Ctrl ,</kbd>
+              </div>
+              <div className="shortcut-row">
+                <span>Espandi / ripristina</span>
+                <kbd>⌘ / Ctrl ↑</kbd>
+              </div>
+              <div className="shortcut-row">
+                <span>Chiudi un pannello</span>
+                <kbd>Esc</kbd>
+              </div>
+            </div>
+          )}
+          {current === 'connection' && (
+            <>
+              <div className="system-emblem">
+                {online ? <Wifi size={42} /> : <WifiOff size={42} />}
+              </div>
+              <h2>
+                {online === null
+                  ? 'Verifica in corso…'
+                  : online
+                    ? 'Connessione disponibile'
+                    : 'Sei offline'}
+              </h2>
+              <p>
+                {online
+                  ? 'Il browser segnala una connessione di rete disponibile.'
+                  : 'I collegamenti ai siti ufficiali richiedono una connessione a Internet.'}
+              </p>
+              <p className="system-note">
+                La rete Wi-Fi si gestisce dalle impostazioni del dispositivo.
+              </p>
+            </>
+          )}
+          {current === 'battery' && (
+            <>
+              <div className="system-emblem">
+                <BatteryFull size={46} />
+              </div>
+              <h2>
+                {batteryLoading
+                  ? 'Lettura in corso…'
+                  : battery
+                    ? `${battery.level}%`
+                    : 'Dato non disponibile'}
+              </h2>
+              <p>
+                {battery
+                  ? battery.charging
+                    ? 'Il dispositivo è collegato all’alimentazione.'
+                    : 'Il dispositivo sta utilizzando la batteria.'
+                  : 'Questo browser non espone il livello della batteria. Puoi consultarlo nella barra di sistema del dispositivo.'}
+              </p>
+            </>
+          )}
+          {current === 'clock' && now && (
+            <div className="clock-panel">
+              <div className="calendar-date">
+                <small>
+                  {now.toLocaleDateString('it-IT', {
+                    month: 'long',
+                    year: 'numeric',
+                  })}
+                </small>
+                <strong>{now.getDate()}</strong>
+                <span>
+                  {now.toLocaleDateString('it-IT', { weekday: 'long' })}
+                </span>
+              </div>
+              <time>{now.toLocaleTimeString('it-IT')}</time>
+              <p>{Intl.DateTimeFormat().resolvedOptions().timeZone}</p>
+            </div>
+          )}
+          {current === 'coming' && (
+            <>
+              <div className="system-emblem">
+                <Smartphone size={42} />
+              </div>
+              <h2>iPhone e iPad, prossimamente.</h2>
+              <p>
+                Nel frattempo puoi esplorare le raccolte dedicate a Mac e
+                Android.
+              </p>
+              <button className="system-primary" onClick={p.onOpenWindow}>
+                <Monitor size={17} /> Apri la raccolta
+              </button>
+            </>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 }
