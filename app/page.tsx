@@ -93,7 +93,7 @@ function AppIcon({ app }: { app: App }) {
         <b aria-hidden="true">{app.name.slice(0, 2).toUpperCase()}</b>
       ) : (
         <img
-          src={`/icons/${app.icon || app.slug + '.png'}`}
+          src={`${import.meta.env.BASE_URL}icons/${app.icon || app.slug + '.png'}`}
           alt=""
           width={64}
           height={64}
@@ -188,14 +188,14 @@ export default function Home() {
   useEffect(() => {
     let cancelled = false;
     const assets = [
-      '/favicon.svg',
+      `${import.meta.env.BASE_URL}favicon.svg`,
       ...apps
         .filter(
           (app) =>
             appPlatform(app) === 'Mac' &&
             (app.icon || app.slug !== 'android-file-transfer'),
         )
-        .map((app) => `/icons/${app.icon || app.slug + '.png'}`),
+        .map((app) => `${import.meta.env.BASE_URL}icons/${app.icon || app.slug + '.png'}`),
     ];
     const started = performance.now();
     let loaded = 0;
@@ -1373,7 +1373,7 @@ export default function Home() {
         aria-hidden={!booting}
       >
         <div className="boot-content">
-          <img src="/favicon.svg" alt="Appunto" />
+          <img src={`${import.meta.env.BASE_URL}favicon.svg`} alt="Appunto" />
           <strong>Appunto</strong>
           <div className="boot-progress">
             <span style={{ width: `${bootProgress}%` }} />
