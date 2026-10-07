@@ -10,6 +10,10 @@
   <img src="https://img.shields.io/badge/app-33-18304d?style=flat-square" alt="33 app">
 </p>
 
+<p align="center">
+  <a href="https://carellice.github.io/appunto/"><strong>Apri Appunto su GitHub Pages →</strong></a>
+</p>
+
 ## Cos’è
 
 Appunto è un piccolo catalogo editoriale di applicazioni selezionate personalmente: strumenti utili, curati e piacevoli da usare ogni giorno. Il progetto è pensato per crescere in futuro con raccolte dedicate a iPhone, iPad e Android.
