@@ -1,4 +1,4 @@
-export type Platform = 'Mac' | 'Android';
+export type Platform = 'Mac' | 'Android' | 'Windows';
 export type App = {
   name: string;
   slug: string;
@@ -382,6 +382,147 @@ export const apps: App[] = [
       'Per digitalizzare documenti fisici con la fotocamera e conservarli o condividerli.',
     url: 'https://play.google.com/store/apps/details?id=com.adobe.scan.android',
     note: 'Il download è gratuito; alcune funzioni avanzate possono richiedere acquisti o un abbonamento.',
+  },
+  {
+    name: 'PowerToys',
+    slug: 'powertoys',
+    platform: 'Windows',
+    desc: 'Windows, con qualche superpotere in più.',
+    category: 'Produttività',
+    about:
+      'Una raccolta gratuita e open source di Microsoft con strumenti come FancyZones per le finestre, PowerToys Run per avviare app, rinomina in blocco, selettore colori e ridimensionamento delle immagini.',
+    useful:
+      'Per aggiungere a Windows le piccole funzioni che si cercano ogni giorno, tutte in un’unica app.',
+    url: 'https://learn.microsoft.com/windows/powertoys/',
+  },
+  {
+    name: 'Everything',
+    slug: 'everything',
+    platform: 'Windows',
+    desc: 'Qualsiasi file, in un istante.',
+    category: 'File e spazio',
+    about:
+      'Indicizza nomi di file e cartelle di tutti i dischi e mostra i risultati mentre digiti, anche tra milioni di elementi.',
+    useful:
+      'Per ritrovare subito un file quando non ricordi dove l’hai salvato.',
+    url: 'https://www.voidtools.com/',
+  },
+  {
+    name: 'ShareX',
+    slug: 'sharex',
+    platform: 'Windows',
+    desc: 'Catture dello schermo, senza limiti.',
+    category: 'Produttività',
+    about:
+      'Uno strumento gratuito e open source per catturare schermate, registrare lo schermo, annotare le immagini e automatizzare cosa succede dopo ogni cattura.',
+    useful:
+      'Per spiegare un problema con un’immagine o un breve video e condividerlo al volo.',
+    url: 'https://getsharex.com/',
+  },
+  {
+    name: 'Ditto',
+    slug: 'ditto',
+    platform: 'Windows',
+    desc: 'Tutto quello che copi. Anche su Windows.',
+    category: 'Produttività',
+    about:
+      'Estende gli appunti di Windows salvando testi, immagini e file copiati, con ricerca rapida e la possibilità di sincronizzarli tra più PC.',
+    useful:
+      'Per recuperare un testo copiato tempo fa senza doverlo cercare di nuovo.',
+    url: 'https://ditto-cp.sourceforge.io/',
+  },
+  {
+    name: '7-Zip',
+    slug: '7-zip',
+    platform: 'Windows',
+    desc: 'Archivi compressi, alla vecchia maniera.',
+    category: 'File e spazio',
+    about:
+      'Un archiviatore gratuito e open source con un ottimo rapporto di compressione. Apre ZIP, RAR, 7Z e molti altri formati e si integra nel menu contestuale.',
+    useful: 'Per comprimere ed estrarre archivi con un clic destro.',
+    url: 'https://www.7-zip.org/',
+  },
+  {
+    name: 'WizTree',
+    slug: 'wiztree',
+    platform: 'Windows',
+    desc: 'Scopri cosa riempie il disco.',
+    category: 'File e spazio',
+    about:
+      'Analizza lo spazio occupato su disco in pochi secondi e mostra file e cartelle più grandi in un elenco e in una mappa visiva.',
+    useful: 'Per liberare spazio quando il disco è quasi pieno.',
+    url: 'https://diskanalyzer.com/',
+    note: 'Gratuita per uso personale.',
+  },
+  {
+    name: 'Bulk Crap Uninstaller',
+    slug: 'bulk-crap-uninstaller',
+    platform: 'Windows',
+    desc: 'Disinstalla tutto, anche i residui.',
+    category: 'Utility',
+    about:
+      'Un programma di disinstallazione gratuito e open source che rimuove più app insieme e ripulisce file e voci di registro rimasti.',
+    useful:
+      'Per fare pulizia di programmi preinstallati o che non usi più, senza lasciare tracce.',
+    url: 'https://www.bcuninstaller.com/',
+  },
+  {
+    name: 'Notepad++',
+    slug: 'notepad-plus-plus',
+    platform: 'Windows',
+    desc: 'Il blocco note, fatto per il codice.',
+    category: 'Scrittura e codice',
+    about:
+      'Un editor di testo e codice gratuito, leggero e veloce, con evidenziazione della sintassi, schede, macro e plugin.',
+    useful: 'Per modificare file di testo, script e configurazioni al volo.',
+    url: 'https://notepad-plus-plus.org/',
+  },
+  {
+    name: 'EarTrumpet',
+    slug: 'eartrumpet',
+    platform: 'Windows',
+    desc: 'Il volume di ogni app, a portata di clic.',
+    category: 'Personalizzazione',
+    about:
+      'Sostituisce il controllo del volume della barra delle applicazioni con uno più completo, che regola ogni app separatamente e cambia dispositivo audio in un clic.',
+    useful:
+      'Per abbassare la musica senza toccare la chiamata, o passare dalle cuffie alle casse.',
+    url: 'https://eartrumpet.app/',
+  },
+  {
+    name: 'Twinkle Tray',
+    slug: 'twinkle-tray',
+    platform: 'Windows',
+    desc: 'La luminosità di ogni monitor.',
+    category: 'Personalizzazione',
+    about:
+      'Regola la luminosità dei monitor esterni direttamente dalla barra delle applicazioni, con scorciatoie e orari automatici.',
+    useful: 'Per chi usa più schermi e non vuole cercare i tasti sul monitor.',
+    url: 'https://twinkletray.com/',
+  },
+  {
+    name: 'LocalSend',
+    slug: 'localsend',
+    platform: 'Windows',
+    desc: 'File tra dispositivi, senza internet.',
+    category: 'File e spazio',
+    about:
+      'Un’app gratuita e open source per inviare file e messaggi ad altri dispositivi vicini sulla stessa rete locale, con trasferimenti cifrati e senza account.',
+    useful:
+      'Per passare foto e documenti dal PC al telefono, o al Mac, in un attimo.',
+    url: 'https://localsend.org/',
+  },
+  {
+    name: 'VLC',
+    slug: 'vlc',
+    platform: 'Windows',
+    desc: 'Riproduce davvero tutto.',
+    category: 'Video e media',
+    about:
+      'Il lettore multimediale gratuito e open source che apre quasi ogni formato audio e video, sottotitoli e flussi in rete, senza codec aggiuntivi.',
+    useful:
+      'Per guardare un file che il lettore integrato non riesce ad aprire.',
+    url: 'https://www.videolan.org/vlc/',
   },
 ];
 export function appPlatform(app: App): Platform {

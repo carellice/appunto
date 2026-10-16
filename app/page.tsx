@@ -9,6 +9,7 @@ import {
 import {
   Grid2X2,
   Monitor,
+  Laptop,
   Smartphone,
   Tablet,
   Search,
@@ -79,8 +80,27 @@ const wallpapers = [
   'radial-gradient(ellipse at 90% 2%, #1b5e5e 0, transparent 45%), radial-gradient(ellipse at 10% 80%, #062e55 0, transparent 52%), radial-gradient(ellipse at 58% 40%, #2e7180 0, transparent 55%), linear-gradient(140deg, #0a2948, #235b6b 48%, #3c5f5a)',
   'radial-gradient(ellipse at 18% 0%, #80632c 0, transparent 46%), radial-gradient(ellipse at 94% 78%, #833d36 0, transparent 48%), radial-gradient(ellipse at 42% 52%, #403078 0, transparent 55%), linear-gradient(135deg, #513c2d, #5d3d67 48%, #293267)',
 ];
+const platformLabels: Record<Platform, string> = {
+  Mac: 'macOS',
+  Android: 'Android',
+  Windows: 'Windows',
+};
+function PlatformIcon({
+  platform,
+  size,
+}: {
+  platform: Platform;
+  size?: number;
+}) {
+  if (platform === 'Mac') return <Monitor size={size} />;
+  if (platform === 'Windows') return <Laptop size={size} />;
+  return <Smartphone size={size} />;
+}
+function countApps(platform: Platform) {
+  return apps.filter((app) => appPlatform(app) === platform).length;
+}
 function AppIcon({ app }: { app: App }) {
-  const generic = appPlatform(app) === 'Android' && !app.icon;
+  const generic = appPlatform(app) !== 'Mac' && !app.icon;
   return (
     <span
       className={`app-icon ${app.slug === 'android-file-transfer' || app.slug === 'makemkv' || generic ? 'generic-icon' : ''}`}
@@ -195,7 +215,10 @@ export default function Home() {
             appPlatform(app) === 'Mac' &&
             (app.icon || app.slug !== 'android-file-transfer'),
         )
-        .map((app) => `${import.meta.env.BASE_URL}icons/${app.icon || app.slug + '.png'}`),
+        .map(
+          (app) =>
+            `${import.meta.env.BASE_URL}icons/${app.icon || app.slug + '.png'}`,
+        ),
     ];
     const started = performance.now();
     let loaded = 0;
@@ -657,8 +680,12 @@ export default function Home() {
           </div>
         ) : (
           <>
-            <div className="ios-mobile-platform" role="group" aria-label="Piattaforma">
-              {(['Mac', 'Android'] as const).map((item) => (
+            <div
+              className="ios-mobile-platform"
+              role="group"
+              aria-label="Piattaforma"
+            >
+              {(['Mac', 'Windows', 'Android'] as const).map((item) => (
                 <button
                   key={item}
                   className={platform === item ? 'active' : ''}
@@ -669,9 +696,9 @@ export default function Home() {
                     setMobilePage(0);
                   }}
                 >
-                  {item === 'Mac' ? <Monitor size={15} /> : <Smartphone size={15} />}
+                  <PlatformIcon platform={item} size={15} />
                   {item}
-                  <span>{apps.filter((app) => appPlatform(app) === item).length}</span>
+                  <span>{countApps(item)}</span>
                 </button>
               ))}
             </div>
@@ -833,11 +860,18 @@ export default function Home() {
                   Mac<span>{macApps.length}</span>
                 </button>
                 <button
+                  className={`device ${platform === 'Windows' ? 'active' : ''}`}
+                  onClick={() => selectPlatform('Windows')}
+                >
+                  <Laptop />
+                  Windows<span>{countApps('Windows')}</span>
+                </button>
+                <button
                   className={`device ${platform === 'Android' ? 'active' : ''}`}
                   onClick={() => selectPlatform('Android')}
                 >
                   <Smartphone />
-                  Android<span>{apps.length - macApps.length}</span>
+                  Android<span>{countApps('Android')}</span>
                 </button>
                 <button className="device" onClick={() => setPanel('coming')}>
                   <Smartphone />
@@ -960,12 +994,8 @@ export default function Home() {
               <div className="catalog-heading">
                 <div>
                   <div className="eyebrow">
-                    {platform === 'Mac' ? (
-                      <Monitor size={14} />
-                    ) : (
-                      <Smartphone size={14} />
-                    )}{' '}
-                    FATTE PER {platform === 'Mac' ? 'IL TUO MAC' : 'ANDROID'}
+                    <PlatformIcon platform={platform} size={14} /> FATTE PER{' '}
+                    {platform === 'Mac' ? 'IL TUO MAC' : platform.toUpperCase()}
                   </div>
                   <h1>{category}</h1>
                   <p>Piccole scoperte che fanno la differenza, ogni giorno.</p>
@@ -981,7 +1011,11 @@ export default function Home() {
                       MENO ATTRITO. PIÙ POSSIBILITÀ.
                     </span>
                     <h2>
-                      {platform === 'Mac' ? 'Il tuo Mac.' : 'Il tuo Android.'}
+                      {platform === 'Mac'
+                        ? 'Il tuo Mac.'
+                        : platform === 'Windows'
+                          ? 'Il tuo PC.'
+                          : 'Il tuo Android.'}
                       <br />
                       Con una marcia in più.
                     </h2>
@@ -1071,17 +1105,13 @@ export default function Home() {
                     : 'app selezionate'}{' '}
                   per {platform}
                 </span>
-                <span>Mac e Android, disponibili.</span>
+                <span>Mac, Windows e Android, disponibili.</span>
               </div>
             </div>
             <footer className="window-status">
               <span>
-                {platform === 'Mac' ? (
-                  <Monitor size={13} />
-                ) : (
-                  <Smartphone size={13} />
-                )}{' '}
-                {platform} <ChevronRight size={12} /> {category}
+                <PlatformIcon platform={platform} size={13} /> {platform}{' '}
+                <ChevronRight size={12} /> {category}
               </span>
               <span aria-live="polite">
                 {filtered.length} applicazioni · Scelte con cura
@@ -1218,7 +1248,7 @@ export default function Home() {
                   <DialogDescription>{selected.desc}</DialogDescription>
                   <span className="detail-category">
                     {selected.category} <span>·</span>{' '}
-                    {appPlatform(selected) === 'Mac' ? 'macOS' : 'Android'}
+                    {platformLabels[appPlatform(selected)]}
                   </span>
                 </div>
               </div>
@@ -1275,8 +1305,8 @@ export default function Home() {
           </div>
           <DialogTitle>Le app giuste. Appunto.</DialogTitle>
           <DialogDescription>
-            Una raccolta personale di applicazioni Mac e Android selezionate da
-            Flavio: strumenti utili, curati e piacevoli da usare.
+            Una raccolta personale di applicazioni Mac, Windows e Android
+            selezionate da Flavio: strumenti utili, curati e piacevoli da usare.
           </DialogDescription>
           <p>
             Apri un’app per scoprire cosa fa e quando può esserti utile. Il
@@ -1289,7 +1319,12 @@ export default function Home() {
           </div>
           <div className="about-platforms">
             <Smartphone />
-            <span>Android · {apps.length - macApps.length} app</span>
+            <span>Android · {countApps('Android')} app</span>
+            <span>Disponibile</span>
+          </div>
+          <div className="about-platforms">
+            <Laptop />
+            <span>Windows · {countApps('Windows')} app</span>
             <span>Disponibile</span>
           </div>
           <div className="about-platforms">
@@ -1298,8 +1333,8 @@ export default function Home() {
             <span>In arrivo</span>
           </div>
           <small>
-            Progetto indipendente, non affiliato ad Apple. Le icone appartengono
-            ai rispettivi sviluppatori.
+            Progetto indipendente, non affiliato ad Apple, Microsoft o Google.
+            Le icone appartengono ai rispettivi sviluppatori.
           </small>
         </DialogContent>
       </Dialog>

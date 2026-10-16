@@ -1,14 +1,15 @@
 <div align="center">
   <img src="public/favicon.svg" alt="Logo di Appunto" width="112" height="112">
   <h1>Appunto</h1>
-  <p><strong>La tua prossima app per Mac e Android.</strong><br>
+  <p><strong>La tua prossima app per Mac, Windows e Android.</strong><br>
   Un catalogo personale di applicazioni utili, curate e piacevoli da usare, presentato come un piccolo desktop macOS dentro il browser.</p>
   <p>
     <a href="https://carellice.github.io/appunto/"><img src="https://img.shields.io/badge/Apri%20Appunto-online-087cff?style=for-the-badge" alt="Apri Appunto online"></a>
   </p>
   <p>
-    <img src="https://img.shields.io/badge/app-33-18304d?style=flat-square" alt="33 app">
+    <img src="https://img.shields.io/badge/app-45-18304d?style=flat-square" alt="45 app">
     <img src="https://img.shields.io/badge/Mac-24-6f5bd3?style=flat-square" alt="24 app Mac">
+    <img src="https://img.shields.io/badge/Windows-12-0078d4?style=flat-square" alt="12 app Windows">
     <img src="https://img.shields.io/badge/Android-9-3ddc84?style=flat-square" alt="9 app Android">
     <img src="https://img.shields.io/badge/licenza-MIT-lightgrey?style=flat-square" alt="Licenza MIT">
   </p>
@@ -40,10 +41,11 @@ Non serve installare nulla né registrarsi: si apre nel browser, da computer, ta
 | Piattaforma | App | Categorie |
 |---|---|---|
 | **Mac** | 24 | Produttività, File e spazio, Scrittura e codice, Personalizzazione, Utility, Video e media |
+| **Windows** | 12 | Produttività, File e spazio, Scrittura e codice, Personalizzazione, Utility, Video e media |
 | **Android** | 9 | Benessere, Video e media, Sport, Lettura, Giochi, Scrittura e codice, Utility |
 | **iPhone e iPad** | In arrivo | — |
 
-Qualche esempio: Rectangle per sistemare le finestre, Maccy per la cronologia degli appunti, Keka per comprimere i file, Pearcleaner per disinstallare le app senza lasciare residui, YTDLnis e Adobe Scan su Android.
+Qualche esempio: Rectangle per sistemare le finestre, Maccy per la cronologia degli appunti, Keka per comprimere i file, Pearcleaner per disinstallare le app senza lasciare residui, PowerToys ed Everything su Windows, YTDLnis e Adobe Scan su Android.
 
 ## Come si usa
 
@@ -116,7 +118,7 @@ public/
 
 ## Aggiungere un’app
 
-1. Aggiungi una voce in [app/apps.ts](app/apps.ts) con nome, `slug`, descrizione, categoria e sito ufficiale. Per un’app Android imposta `platform: 'Android'`.
+1. Aggiungi una voce in [app/apps.ts](app/apps.ts) con nome, `slug`, descrizione, categoria e sito ufficiale. Per un’app Android o Windows imposta `platform: 'Android'` o `platform: 'Windows'`.
 2. Metti l’icona in `public/icons` chiamandola come lo `slug` (per esempio `rectangle.png`). Se il file ha un altro nome o formato, indicalo nel campo `icon`.
 
 ## Tecnologie
@@ -127,4 +129,4 @@ React 19, TypeScript, Vite, Tailwind CSS 4 e componenti Base UI / shadcn.
 
 Il codice è distribuito con licenza [MIT](LICENSE).
 
-Appunto è un progetto indipendente, non affiliato ad Apple né a Google. Le icone e i marchi delle applicazioni appartengono ai rispettivi sviluppatori e sono mostrati solo per identificarle.
+Appunto è un progetto indipendente, non affiliato ad Apple, Microsoft o Google. Le icone e i marchi delle applicazioni appartengono ai rispettivi sviluppatori e sono mostrati solo per identificarle.

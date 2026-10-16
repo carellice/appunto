@@ -402,8 +402,8 @@ export function SystemPanel(p: Props) {
               </div>
               <h2>iPhone e iPad, prossimamente.</h2>
               <p>
-                Nel frattempo puoi esplorare le raccolte dedicate a Mac e
-                Android.
+                Nel frattempo puoi esplorare le raccolte dedicate a Mac, Windows
+                e Android.
               </p>
               <button className="system-primary" onClick={p.onOpenWindow}>
                 <Monitor size={17} /> Apri la raccolta
