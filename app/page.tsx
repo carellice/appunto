@@ -458,7 +458,7 @@ export default function Home() {
   }, [animations, windowOpen]);
   const menus = [
     {
-      label: '',
+      label: '',
       accessible: 'Menu di sistema',
       items: [
         {
@@ -555,7 +555,7 @@ export default function Home() {
             <DropdownMenu key={menu.accessible}>
               <DropdownMenuTrigger
                 aria-label={menu.accessible}
-                className={`menu-trigger ${menu.label === '' ? 'apple' : menu.label === 'Appunto' ? 'menu-title' : ''}`}
+                className={`menu-trigger ${menu.label === '' ? 'apple' : menu.label === 'Appunto' ? 'menu-title' : ''}`}
               >
                 {menu.label === '' ? (
                   <img
