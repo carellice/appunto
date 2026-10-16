@@ -100,7 +100,7 @@ function countApps(platform: Platform) {
   return apps.filter((app) => appPlatform(app) === platform).length;
 }
 function AppIcon({ app }: { app: App }) {
-  const generic = appPlatform(app) !== 'Mac' && !app.icon;
+  const generic = appPlatform(app) === 'Android' && !app.icon;
   return (
     <span
       className={`app-icon ${app.slug === 'android-file-transfer' || app.slug === 'makemkv' || generic ? 'generic-icon' : ''}`}
@@ -459,7 +459,7 @@ export default function Home() {
   const menus = [
     {
       label: '',
-      accessible: 'Menu Apple',
+      accessible: 'Menu di sistema',
       items: [
         {
           label: 'Informazioni su questo desktop',
@@ -557,7 +557,16 @@ export default function Home() {
                 aria-label={menu.accessible}
                 className={`menu-trigger ${menu.label === '' ? 'apple' : menu.label === 'Appunto' ? 'menu-title' : ''}`}
               >
-                {menu.label}
+                {menu.label === '' ? (
+                  <img
+                    src={`${import.meta.env.BASE_URL}favicon.svg`}
+                    alt=""
+                    width={17}
+                    height={17}
+                  />
+                ) : (
+                  menu.label
+                )}
               </DropdownMenuTrigger>
               <DropdownMenuContent className="os-menu glass">
                 {menu.items.map((item) => (

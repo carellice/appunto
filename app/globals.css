@@ -138,6 +138,7 @@ button:active:not(:disabled) { scale: .97; }
 .menubar .menu-trigger { height: 28px; }
 .menubar button:hover { text-shadow: 0 0 10px #fff8; }
 .apple { font-size: 20px; }
+.apple img { display: block; width: 17px; height: 17px; border-radius: 4px; box-shadow: 0 1px 3px #12305a40; }
 .system-symbol { display: flex; align-items: center; gap: 18px; }
 .desktop-caption { position: absolute; top: 46px; left: 0; right: 0; text-align: center; color: #eef7fbdb; font-size: 12px; letter-spacing: .025em; text-shadow: 0 1px 8px #164a8c44; }
 .os-menu { position: relative; min-width: 235px !important; background-color: var(--dialog) !important; border-radius: 20px !important; padding: 7px !important; --glass-blur: 36px; }
@@ -730,3 +731,10 @@ button:active:not(:disabled) { scale: .97; }
 }
 :root[data-motion=reduced] *, :root[data-motion=reduced] *::before, :root[data-motion=reduced] *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 @media(prefers-reduced-motion:reduce){[data-slot=dialog-content].ios-sheet,[data-slot=dialog-overlay]{transition:none!important;animation:none!important}}
+
+/* The desktop always fits the viewport: only the window content scrolls. */
+@media (min-width: 768px) {
+  html, body { height: 100%; overflow: hidden; }
+  .desktop { height: 100svh; min-height: 0; overflow: clip; }
+  .mac-window { min-height: 0; }
+}
