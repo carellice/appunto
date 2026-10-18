@@ -7,9 +7,9 @@
     <a href="https://carellice.github.io/appunto/"><img src="https://img.shields.io/badge/Apri%20Appunto-online-087cff?style=for-the-badge" alt="Apri Appunto online"></a>
   </p>
   <p>
-    <img src="https://img.shields.io/badge/app-45-18304d?style=flat-square" alt="45 app">
+    <img src="https://img.shields.io/badge/app-47-18304d?style=flat-square" alt="47 app">
     <img src="https://img.shields.io/badge/Mac-24-6f5bd3?style=flat-square" alt="24 app Mac">
-    <img src="https://img.shields.io/badge/Windows-12-0078d4?style=flat-square" alt="12 app Windows">
+    <img src="https://img.shields.io/badge/Windows-14-0078d4?style=flat-square" alt="14 app Windows">
     <img src="https://img.shields.io/badge/Android-9-3ddc84?style=flat-square" alt="9 app Android">
     <img src="https://img.shields.io/badge/licenza-MIT-lightgrey?style=flat-square" alt="Licenza MIT">
   </p>
@@ -41,7 +41,7 @@ Non serve installare nulla né registrarsi: si apre nel browser, da computer, ta
 | Piattaforma | App | Categorie |
 |---|---|---|
 | **Mac** | 24 | Produttività, File e spazio, Scrittura e codice, Personalizzazione, Utility, Video e media |
-| **Windows** | 12 | Produttività, File e spazio, Scrittura e codice, Personalizzazione, Utility, Video e media |
+| **Windows** | 14 | Produttività, File e spazio, Scrittura e codice, Personalizzazione, Utility, Video e media |
 | **Android** | 9 | Benessere, Video e media, Sport, Lettura, Giochi, Scrittura e codice, Utility |
 | **iPhone e iPad** | In arrivo | — |
 

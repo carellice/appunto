@@ -501,16 +501,42 @@ export const apps: App[] = [
     url: 'https://twinkletray.com/',
   },
   {
-    name: 'LocalSend',
-    slug: 'localsend',
+    name: 'Blip',
+    slug: 'blip-windows',
     platform: 'Windows',
-    desc: 'File tra dispositivi, senza internet.',
+    icon: 'blip.jpg',
+    desc: 'I tuoi file, da un dispositivo all’altro.',
     category: 'File e spazio',
     about:
-      'Un’app gratuita e open source per inviare file e messaggi ad altri dispositivi vicini sulla stessa rete locale, con trasferimenti cifrati e senza account.',
+      'Invia file e cartelle direttamente ad altri dispositivi con Blip. I trasferimenti funzionano anche tra piattaforme diverse, senza dover creare un link pubblico.',
     useful:
       'Per passare foto e documenti dal PC al telefono, o al Mac, in un attimo.',
-    url: 'https://localsend.org/',
+    url: 'https://blip.net/',
+  },
+  {
+    name: 'Typedown',
+    slug: 'typedown',
+    platform: 'Windows',
+    desc: 'Il Markdown, con lo stile di Windows.',
+    category: 'Scrittura e codice',
+    about:
+      'Un editor Markdown leggero, gratuito e open source, costruito con WinUI per integrarsi nell’aspetto di Windows. Mostra il testo formattato mentre scrivi.',
+    useful:
+      'Per appunti, documentazione e articoli in Markdown, senza un editor pesante.',
+    url: 'https://github.com/byxiaozhi/Typedown',
+  },
+  {
+    name: 'Geek Uninstaller',
+    slug: 'geek-uninstaller',
+    platform: 'Windows',
+    desc: 'Disinstalla in un attimo. Anche a forza.',
+    category: 'Utility',
+    about:
+      'Un programma di disinstallazione portatile e gratuito che, dopo la rimozione, cerca file e voci di registro rimasti. Può forzare la rimozione dei programmi ostinati e disinstallare le app dello Store.',
+    useful:
+      'Per eliminare un programma che non si disinstalla o fare pulizia senza installare nulla.',
+    url: 'https://geekuninstaller.com/',
+    note: 'Gratuita per uso personale. Esiste anche una versione Pro a pagamento.',
   },
   {
     name: 'VLC',
